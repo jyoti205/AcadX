@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AcadX — Learn • Intern • Get Placed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #ffffff;
+    --bg-soft: #f6f7f9;
+    --bg-soft-2: #f0f2f5;
+    --border: #e4e6ea;
+    --border-strong: #d8dbe1;
+    --text: #14161a;
+    --text-muted: #6b7078;
+    --text-faint: #94989f;
+    --accent: #2954e6;
+    --accent-dark: #1f42c2;
+    --accent-soft: #eaf0ff;
+    --accent-soft-2: #dde8ff;
+    --success: #1f8a5f;
+    --success-soft: #e8f6ef;
+    --warn: #b8860a;
+    --warn-soft: #fbf3e2;
+    --danger: #c0392b;
+    --danger-soft: #fbeceb;
+    --radius-s: 6px;
+    --radius-m: 10px;
+    --radius-l: 14px;
+    --shadow-card: 0 1px 2px rgba(20,22,26,0.04), 0 1px 8px rgba(20,22,26,0.03);
+    --sidebar-w: 232px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:var(--bg-soft);
+    color:var(--text);
+    font-size:14px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  ::selection{background:var(--accent-soft-2);}
+
+  .app{
+    display:flex;
+    min-height:100vh;
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    background:var(--bg);
+    border-right:1px solid var(--border);
+    display:flex;
+    flex-direction:column;
+    padding:22px 14px;
+    position:sticky;
+    top:0;
+    height:100vh;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:4px 10px 26px 10px;
+  }
+  .brand-mark{
+    width:26px; height:26px;
+    border-radius:7px;
+    background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff; font-weight:700; font-size:13px;
+    flex-shrink:0;
+  }
+  .brand-name{font-weight:700; font-size:15.5px; letter-spacing:-0.01em;}
+
+  .nav{display:flex; flex-direction:column; gap:2px;}
+  .nav-item{
+    display:flex; align-items:center; gap:10px;
+    padding:9px 12px;
+    border-radius:var(--radius-s);
+    color:var(--text-muted);
+    font-size:13.5px;
+    font-weight:500;
+    transition:background .12s ease, color .12s ease;
+  }
+  .nav-item svg{width:17px; height:17px; flex-shrink:0;}
+  .nav-item:hover{background:var(--bg-soft-2); color:var(--text);}
+  .nav-item.active{
+    background:var(--accent-soft);
+    color:var(--accent-dark);
+  }
+  .nav-item.active svg{stroke:var(--accent-dark);}
+
+  .sidebar-foot{margin-top:auto; padding:12px 10px 4px 10px;}
+  .sidebar-foot-line{
+    border-top:1px solid var(--border);
+    padding-top:14px;
+    color:var(--text-faint);
+    font-size:12px;
+  }
+
+  /* ---------- MAIN ---------- */
+  .main{flex:1; min-width:0; display:flex; flex-direction:column;}
+
+  .topbar{
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    background:var(--bg);
+    border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:5;
+  }
+  .search{
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg-soft);
+    border:1px solid var(--border);
+    border-radius:var(--radius-s);
+    padding:8px 12px;
+    width:320px;
+    color:var(--text-faint);
+  }
+  .search svg{width:15px; height:15px; flex-shrink:0; stroke:var(--text-faint);}
+  .search input{
+    border:none; background:none; outline:none; font-family:inherit;
+    font-size:13px; width:100%; color:var(--text);
+  }
+  .search input::placeholder{color:var(--text-faint);}
+
+  .topbar-right{display:flex; align-items:center; gap:18px;}
+  .icon-btn{
+    width:34px; height:34px; border-radius:var(--radius-s);
+    border:1px solid var(--border);
+    background:var(--bg);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .icon-btn svg{width:16px; height:16px; stroke:var(--text-muted);}
+  .icon-btn .dot{
+    position:absolute; top:7px; right:7px;
+    width:6px; height:6px; border-radius:50%;
+    background:var(--accent); border:1.5px solid var(--bg);
+  }
+  .user-chip{display:flex; align-items:center; gap:9px; padding-left:4px;}
+  .avatar{
+    width:34px; height:34px; border-radius:50%;
+    background:var(--accent);
+    color:#fff; font-weight:600; font-size:13.5px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .user-meta{line-height:1.25;}
+  .user-name{font-weight:600; font-size:13.5px;}
+  .user-sub{font-size:11.5px; color:var(--text-faint);}
+
+  .content{padding:32px 36px 60px 36px; max-width:1240px; width:100%;}
+
+  /* ---------- PAGE HEADER ---------- */
+  .eyebrow{font-size:13px; color:var(--text-muted); margin-bottom:6px;}
+  .page-title{font-size:26px; font-weight:700; letter-spacing:-0.015em; margin:0 0 8px 0;}
+  .page-sub{color:var(--text-muted); font-size:14px; margin:0 0 28px 0; max-width:560px;}
+
+  /* ---------- CARD PRIMITIVES ---------- */
+  .card{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius-l);
+    box-shadow:var(--shadow-card);
+  }
+  .card-pad{padding:22px 24px;}
+  .card-title{font-size:15px; font-weight:600; margin:0 0 3px 0;}
+  .card-desc{font-size:12.5px; color:var(--text-muted); margin:0;}
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    padding:9px 16px;
+    border-radius:var(--radius-s);
+    font-size:13px; font-weight:600;
+    border:1px solid transparent;
+    transition:background .12s ease, border-color .12s ease;
+  }
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:var(--accent-dark);}
+  .btn-secondary{background:var(--bg); color:var(--text); border-color:var(--border-strong);}
+  .btn-secondary:hover{background:var(--bg-soft-2);}
+  .btn-sm{padding:6px 12px; font-size:12.5px;}
+  .link{font-size:13px; color:var(--text-muted); font-weight:500;}
+  .link:hover{color:var(--text);}
+
+  .tag{
+    display:inline-flex; align-items:center;
+    padding:3px 9px;
+    border-radius:5px;
+    background:var(--bg-soft-2);
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    font-size:11.5px; font-weight:500;
+  }
+  .badge-match{
+    display:inline-flex; align-items:center;
+    padding:4px 10px;
+    border-radius:5px;
+    background:var(--accent-soft);
+    color:var(--accent-dark);
+    font-size:12px; font-weight:600;
+  }
+
+  /* page switching */
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* ================= DASHBOARD ================= */
+  .summary-row{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px;}
+  .summary-card{padding:20px 22px;}
+  .summary-label{font-size:12px; font-weight:600; color:var(--text-muted); letter-spacing:0.01em; margin-bottom:12px;}
+  .summary-value{font-size:28px; font-weight:700; letter-spacing:-0.02em; margin-bottom:14px;}
+  .summary-foot{font-size:12.5px; color:var(--accent-dark); font-weight:600; display:flex; align-items:center; gap:4px;}
+  .summary-foot svg{width:12px; height:12px; stroke:var(--accent-dark);}
+
+  .two-col{display:grid; grid-template-columns:1.6fr 1fr; gap:16px;}
+
+  .opp-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 0;
+    border-top:1px solid var(--border);
+  }
+  .opp-row:first-of-type{border-top:none; padding-top:14px;}
+  .opp-main{display:flex; flex-direction:column; gap:6px;}
+  .opp-name{font-weight:600; font-size:14px;}
+  .opp-desc{font-size:12.5px; color:var(--text-muted);}
+  .opp-tags{display:flex; gap:6px; margin-top:2px;}
+
+  .journey-list{display:flex; flex-direction:column;}
+  .journey-item{display:flex; align-items:flex-start; gap:12px; padding-bottom:22px; position:relative;}
+  .journey-item:last-child{padding-bottom:0;}
+  .journey-item:not(:last-child)::before{
+    content:"";
+    position:absolute; left:9px; top:22px; bottom:0;
+    width:1px; background:var(--border-strong);
+  }
+  .journey-dot{
+    width:19px; height:19px; border-radius:50%;
+    flex-shrink:0; margin-top:1px;
+    display:flex; align-items:center; justify-content:center;
+    border:1.5px solid var(--border-strong);
+    background:var(--bg);
+  }
+  .journey-dot.done{background:var(--success); border-color:var(--success);}
+  .journey-dot.done svg{width:10px; height:10px; stroke:#fff;}
+  .journey-dot.current{border-color:var(--accent); background:var(--accent-soft);}
+  .journey-dot.current .inner{width:7px; height:7px; border-radius:50%; background:var(--accent);}
+  .journey-label{font-size:13.5px; font-weight:600;}
+  .journey-status{font-size:12px; color:var(--text-faint); margin-top:1px;}
+  .journey-status.current-status{color:var(--accent-dark);}
+
+  .next-step-box{
+    margin-top:20px; padding-top:18px; border-top:1px solid var(--border);
+  }
+  .next-step-label{font-size:11.5px; font-weight:700; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;}
+  .next-step-text{font-size:13px; color:var(--text); line-height:1.5;}
+
+  /* ================= ASSESSMENT ================= */
+  .progress-strip{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px;
+    margin-bottom:20px;
+  }
+  .progress-strip-label{font-size:13px; font-weight:600;}
+  .progress-strip-value{font-size:12.5px; color:var(--text-muted);}
+  .bar-track-thin{height:6px; background:var(--bg-soft-2); border-radius:99px; overflow:hidden; margin-top:8px;}
+  .bar-fill-thin{height:100%; background:var(--accent); border-radius:99px;}
+
+  .assess-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:start;}
+
+  .skill-row{margin-bottom:18px;}
+  .skill-row:last-child{margin-bottom:0;}
+  .skill-row-top{display:flex; justify-content:space-between; margin-bottom:7px;}
+  .skill-name{font-size:13.5px; font-weight:600;}
+  .skill-pct{font-size:13px; color:var(--text-muted); font-weight:600;}
+  .bar-track{height:8px; background:var(--bg-soft-2); border-radius:99px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--accent); border-radius:99px;}
+
+  .gap-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 0;
+    border-top:1px solid var(--border);
+  }
+  .gap-row:first-of-type{border-top:none; padding-top:2px;}
+  .gap-name{font-size:13.5px; font-weight:600;}
+  .gap-pill{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:5px;}
+  .gap-high{background:var(--danger-soft); color:var(--danger);}
+  .gap-moderate{background:var(--warn-soft); color:var(--warn);}
+  .gap-low{background:var(--success-soft); color:var(--success);}
+
+  .rec-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 0;
+    border-top:1px solid var(--border);
+  }
+  .rec-row:first-of-type{border-top:none; padding-top:0;}
+  .rec-left{display:flex; align-items:center; gap:12px;}
+  .rec-icon{
+    width:34px; height:34px; border-radius:var(--radius-s);
+    background:var(--bg-soft-2);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .rec-icon svg{width:16px; height:16px; stroke:var(--text-muted);}
+  .rec-name{font-size:13.5px; font-weight:600;}
+
+  .assess-actions{display:flex; align-items:center; justify-content:space-between; margin-top:24px;}
+
+  /* ================= OPPORTUNITIES ================= */
+  .filter-bar{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; margin-bottom:24px;
+    flex-wrap:wrap;
+  }
+  .filter-search{
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius-s);
+    padding:9px 12px;
+    flex:1; min-width:260px; max-width:420px;
+  }
+  .filter-search svg{width:15px; height:15px; stroke:var(--text-faint); flex-shrink:0;}
+  .filter-search input{border:none; outline:none; background:none; font-family:inherit; font-size:13px; width:100%;}
+  .filter-search input::placeholder{color:var(--text-faint);}
+
+  .filter-tabs{display:flex; align-items:center; gap:6px;}
+  .filter-tab{
+    padding:8px 14px; border-radius:var(--radius-s);
+    font-size:13px; font-weight:500; color:var(--text-muted);
+    border:1px solid transparent;
+  }
+  .filter-tab.active{background:var(--bg); border-color:var(--border-strong); color:var(--text); font-weight:600;}
+
+  .filter-btn{
+    display:flex; align-items:center; gap:7px;
+    padding:8px 14px;
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius-s);
+    background:var(--bg);
+    font-size:13px; font-weight:500;
+  }
+  .filter-btn svg{width:14px; height:14px; stroke:var(--text-muted);}
+
+  .section-heading{font-size:14px; font-weight:700; margin-bottom:14px; color:var(--text);}
+
+  .opps-layout{display:grid; grid-template-columns:1.7fr 1fr; gap:16px; align-items:start;}
+
+  .job-list{display:flex; flex-direction:column; gap:14px;}
+  .job-card{padding:20px 22px;}
+  .job-top{display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px;}
+  .job-title{font-size:15px; font-weight:700; margin:0 0 4px 0;}
+  .job-meta{font-size:12.5px; color:var(--text-muted); display:flex; gap:14px; flex-wrap:wrap;}
+  .job-meta span{display:flex; align-items:center; gap:5px;}
+  .job-meta svg{width:13px; height:13px; stroke:var(--text-faint);}
+  .job-skills{display:flex; gap:6px; margin:14px 0 16px 0; flex-wrap:wrap;}
+  .job-bottom{display:flex; align-items:center; justify-content:space-between;}
+
+  .why-list{display:flex; flex-direction:column; gap:14px; margin-top:6px;}
+  .why-item{display:flex; align-items:center; gap:10px;}
+  .why-icon{
+    width:30px; height:30px; border-radius:var(--radius-s);
+    background:var(--accent-soft);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .why-icon svg{width:14px; height:14px; stroke:var(--accent-dark);}
+  .why-name{font-size:13px; font-weight:600;}
+
+  @media (max-width: 1180px){
+    .two-col, .assess-grid, .opps-layout{grid-template-columns:1fr;}
+    .summary-row{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">A</div>
+      <div class="brand-name">AcadX</div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item active" data-page="dashboard" onclick="goTo('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" data-page="assessment" onclick="goTo('assessment')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>
+        Skill Assessment
+      </a>
+      <a class="nav-item" data-page="learning" onclick="goTo('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H13v16H5.5c-.8 0-1.5-.7-1.5-1.5v-13Z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H11v16h7.5c.8 0 1.5-.7 1.5-1.5v-13Z"/></svg>
+        Learning
+      </a>
+      <a class="nav-item" data-page="opportunities" onclick="goTo('opportunities')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1.8"/><path d="M8 7V5.5C8 4.7 8.7 4 9.5 4h5c.8 0 1.5.7 1.5 1.5V7"/><path d="M3 12h18"/></svg>
+        Opportunities
+      </a>
+      <a class="nav-item" data-page="applications" onclick="goTo('opportunities')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3.5h7.5L19 8v12.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h5"/><path d="M9 13h6M9 16.5h6"/></svg>
+        Applications
+      </a>
+      <a class="nav-item" data-page="profile" onclick="goTo('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c1.2-4 4-6 7.5-6s6.3 2 7.5 6"/></svg>
+        Profile
+      </a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="sidebar-foot-line">Gossner College</div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <div class="main">
+
+    <!-- TOP BAR (shared) -->
+    <header class="topbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search courses, internships...">
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+          <span class="dot"></span>
+        </button>
+        <div class="user-chip">
+          <div class="avatar">A</div>
+          <div class="user-meta">
+            <div class="user-name">Aditi</div>
+            <div class="user-sub">2nd Year • Gossner College</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 1 — DASHBOARD -->
+    <!-- ============================================================ -->
+    <div class="page active" id="page-dashboard">
+      <div class="content">
+        <div class="eyebrow">Hello, Aditi</div>
+        <h1 class="page-title">Build skills. Find opportunities.</h1>
+        <p class="page-sub">Track your progress and discover opportunities matched to your skills.</p>
+
+        <div class="summary-row">
+          <div class="card summary-card">
+            <div class="summary-label">Skill Score</div>
+            <div class="summary-value">72%</div>
+            <a class="summary-foot" onclick="goTo('assessment')">View details
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </a>
+          </div>
+          <div class="card summary-card">
+            <div class="summary-label">Learning</div>
+            <div class="summary-value">3 Courses</div>
+            <a class="summary-foot">In progress
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </a>
+          </div>
+          <div class="card summary-card">
+            <div class="summary-label">Matched Opportunities</div>
+            <div class="summary-value">5</div>
+            <a class="summary-foot" onclick="goTo('opportunities')">View opportunities
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card card-pad">
+            <div class="card-title">Recommended for you</div>
+            <div class="card-desc">Based on your current skill profile</div>
+
+            <div class="opp-row">
+              <div class="opp-main">
+                <div class="opp-name">Frontend Development</div>
+                <div class="opp-desc">Build modern web applications</div>
+                <div class="opp-tags">
+                  <span class="tag">React</span>
+                  <span class="tag">JavaScript</span>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm">View</button>
+            </div>
+
+            <div class="opp-row">
+              <div class="opp-main">
+                <div class="opp-name">Data Analysis with Python</div>
+                <div class="opp-desc">Develop practical data analysis skills</div>
+                <div class="opp-tags">
+                  <span class="tag">Python</span>
+                  <span class="tag">SQL</span>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm">View</button>
+            </div>
+          </div>
+
+          <div class="card card-pad">
+            <div class="card-title">Your journey</div>
+            <div class="card-desc" style="margin-bottom:18px;">Your path from learning to placement</div>
+
+            <div class="journey-list">
+              <div class="journey-item">
+                <div class="journey-dot done">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <div>
+                  <div class="journey-label">Assessment</div>
+                  <div class="journey-status">Completed</div>
+                </div>
+              </div>
+              <div class="journey-item">
+                <div class="journey-dot current"><div class="inner"></div></div>
+                <div>
+                  <div class="journey-label">Learning</div>
+                  <div class="journey-status current-status">In Progress</div>
+                </div>
+              </div>
+              <div class="journey-item">
+                <div class="journey-dot"></div>
+                <div>
+                  <div class="journey-label">Apply</div>
+                  <div class="journey-status">Upcoming</div>
+                </div>
+              </div>
+              <div class="journey-item">
+                <div class="journey-dot"></div>
+                <div>
+                  <div class="journey-label">Placement</div>
+                  <div class="journey-status">Upcoming</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="next-step-box">
+              <div class="next-step-label">Your next step</div>
+              <div class="next-step-text">Complete your skill assessment to get better opportunity matches.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 2 — SKILL ASSESSMENT -->
+    <!-- ============================================================ -->
+    <div class="page" id="page-assessment">
+      <div class="content">
+        <h1 class="page-title">Skill Assessment</h1>
+        <p class="page-sub">Understand your strengths and identify the skills you need to improve.</p>
+
+        <div class="card progress-strip">
+          <div>
+            <div class="progress-strip-label">Assessment Progress</div>
+            <div class="bar-track-thin" style="width:260px;">
+              <div class="bar-fill-thin" style="width:60%;"></div>
+            </div>
+          </div>
+          <div class="progress-strip-value">3 of 5 sections completed</div>
+        </div>
+
+        <div class="assess-grid">
+          <div class="card card-pad">
+            <div class="card-title">Technical Skills</div>
+            <div class="card-desc" style="margin-bottom:22px;">How would you rate your proficiency in the following skills?</div>
+
+            <div class="skill-row">
+              <div class="skill-row-top"><span class="skill-name">JavaScript</span><span class="skill-pct">70%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:70%;"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-row-top"><span class="skill-name">Python</span><span class="skill-pct">60%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:60%;"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-row-top"><span class="skill-name">SQL</span><span class="skill-pct">45%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:45%;"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-row-top"><span class="skill-name">Cloud Computing</span><span class="skill-pct">30%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:30%;"></div></div>
+            </div>
+
+            <div class="assess-actions">
+              <a class="link" onclick="goTo('dashboard')">Save & continue later</a>
+              <button class="btn btn-primary">Continue Assessment</button>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card card-pad">
+              <div class="card-title">Your Skill Gaps</div>
+              <div class="card-desc" style="margin-bottom:6px;">Areas to focus on next</div>
+
+              <div class="gap-row">
+                <span class="gap-name">SQL</span>
+                <span class="gap-pill gap-moderate">Moderate</span>
+              </div>
+              <div class="gap-row">
+                <span class="gap-name">Cloud Computing</span>
+                <span class="gap-pill gap-high">High</span>
+              </div>
+              <div class="gap-row">
+                <span class="gap-name">Communication</span>
+                <span class="gap-pill gap-low">Low</span>
+              </div>
+
+              <button class="btn btn-primary btn-sm" style="margin-top:16px; width:100%;">View Recommendations</button>
+            </div>
+
+            <div class="card card-pad">
+              <div class="card-title">Recommended next steps</div>
+
+              <div class="rec-row">
+                <div class="rec-left">
+                  <div class="rec-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+                  </div>
+                  <span class="rec-name">SQL Fundamentals</span>
+                </div>
+                <a class="link">Explore</a>
+              </div>
+              <div class="rec-row">
+                <div class="rec-left">
+                  <div class="rec-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10a6 6 0 0 0-11.6-2A4.5 4.5 0 0 0 7 17h10a3.5 3.5 0 0 0 1-6.9Z"/></svg>
+                  </div>
+                  <span class="rec-name">Cloud Computing Basics</span>
+                </div>
+                <a class="link">Explore</a>
+              </div>
+              <div class="rec-row">
+                <div class="rec-left">
+                  <div class="rec-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v10H8l-4 4V5Z"/></svg>
+                  </div>
+                  <span class="rec-name">Communication Skills</span>
+                </div>
+                <a class="link">Explore</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 3 — OPPORTUNITIES -->
+    <!-- ============================================================ -->
+    <div class="page" id="page-opportunities">
+      <div class="content">
+        <h1 class="page-title">Opportunities</h1>
+        <p class="page-sub">Internships and entry-level opportunities matched to your skills.</p>
+
+        <div class="filter-bar">
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="text" placeholder="Search roles, companies or skills">
+          </div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div class="filter-tabs">
+              <span class="filter-tab active">All</span>
+              <span class="filter-tab">Internships</span>
+              <span class="filter-tab">Jobs</span>
+              <span class="filter-tab">Projects</span>
+            </div>
+            <button class="filter-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+              Filters
+            </button>
+          </div>
+        </div>
+
+        <div class="opps-layout">
+          <div>
+            <div class="section-heading">Matched for you</div>
+            <div class="job-list">
+
+              <div class="card job-card">
+                <div class="job-top">
+                  <div>
+                    <div class="job-title">Software Developer Intern</div>
+                    <div class="job-meta">
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>TechNova</span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>Remote</span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>3 months</span>
+                    </div>
+                  </div>
+                  <span class="badge-match">92% Match</span>
+                </div>
+                <div class="job-skills">
+                  <span class="tag">React</span>
+                  <span class="tag">JavaScript</span>
+                  <span class="tag">Git</span>
+                </div>
+                <div class="job-bottom">
+                  <span></span>
+                  <button class="btn btn-primary btn-sm">View opportunity</button>
+                </div>
+              </div>
+
+              <div class="card job-card">
+                <div class="job-top">
+                  <div>
+                    <div class="job-title">Data Analyst Intern</div>
+                    <div class="job-meta">
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>InsightWorks</span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>Bengaluru</span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>6 months</span>
+                    </div>
+                  </div>
+                  <span class="badge-match">86% Match</span>
+                </div>
+                <div class="job-skills">
+                  <span class="tag">Python</span>
+                  <span class="tag">SQL</span>
+                  <span class="tag">Excel</span>
+                </div>
+                <div class="job-bottom">
+                  <span></span>
+                  <button class="btn btn-primary btn-sm">View opportunity</button>
+                </div>
+              </div>
+
+              <div class="card job-card">
+                <div class="job-top">
+                  <div>
+                    <div class="job-title">Cloud Support Intern</div>
+                    <div class="job-meta">
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>CloudEdge</span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>Hybrid</span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>3 months</span>
+                    </div>
+                  </div>
+                  <span class="badge-match">78% Match</span>
+                </div>
+                <div class="job-skills">
+                  <span class="tag">AWS</span>
+                  <span class="tag">Linux</span>
+                  <span class="tag">Networking</span>
+                </div>
+                <div class="job-bottom">
+                  <span></span>
+                  <button class="btn btn-primary btn-sm">View opportunity</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="card card-pad">
+            <div class="card-title">Why these matches?</div>
+            <div class="card-desc">Based on your skills, interests and assessment results.</div>
+
+            <div class="why-list">
+              <div class="why-item">
+                <div class="why-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
+                </div>
+                <span class="why-name">Skills</span>
+              </div>
+              <div class="why-item">
+                <div class="why-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6a8.8 8.8 0 0 1 17.6 0Z"/><circle cx="12" cy="8.6" r="2.6"/></svg>
+                </div>
+                <span class="why-name">Interests</span>
+              </div>
+              <div class="why-item">
+                <div class="why-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+                </div>
+                <span class="why-name">Industry Demand</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function goTo(pageId){
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.nav-item[data-page="' + pageId + '"]').forEach(n => n.classList.add('active'));
+    window.scrollTo(0,0);
+  }
+
+  // Filter tabs (visual only, cosmetic interactivity)
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
